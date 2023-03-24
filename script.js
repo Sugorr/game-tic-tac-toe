@@ -75,7 +75,7 @@ function handleResultValidation() {
 
     handlePlayerChange();
     if (currentPlayer === 'O' && gameActive) {
-        // AI player's turn
+        // AI player's turn 
         const emptyCells = gameState.reduce((acc, cell, index) => {
             if (cell === '') {
                 acc.push(index);

@@ -25,7 +25,7 @@ section {
 }
 
 .game--title {
-    font-size: 100px;
+    font-size: 10vh;
     color: #d7a62f;
     margin: 10px auto;
 }
