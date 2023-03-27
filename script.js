@@ -4,14 +4,24 @@ let gameActive = true;
 let currentPlayer = "X";
 let gameState = ["", "", "", "", "", "", "", "", ""];
 
-let playerScoreX = 0;
 let playerScoreO = 0;
+let playerScoreX = 0;
 
 const winningMessage = () => `Player ${currentPlayer} has won!`;
 const drawMessage = () => `Game ended in a draw!`;
 const currentPlayerTurn = () => `It's ${currentPlayer}'s turn`;
 
 statusDisplay.innerHTML = currentPlayerTurn();
+
+const savedOData = window.localStorage.getItem('player-score-o');
+const savedXData = window.localStorage.getItem('player-score-x');
+
+window.localStorage.clear();
+
+
+if (savedOData != undefined && savedOData != undefined){
+    loadScoreData(savedOData, savedXData);
+}
 
 const winningConditions = [
     [0, 1, 2],
@@ -60,7 +70,10 @@ function handleResultValidation() {
         }
     }
 
+
     if (roundWon) {
+        saveScoreData();
+        console.log(saveScoreData());
         statusDisplay.innerHTML = winningMessage();
         gameActive = false;
         return;
@@ -82,6 +95,7 @@ function handleResultValidation() {
             }
             return acc;
         }, []);
+        
         const randomIndex = Math.floor(Math.random() * emptyCells.length);
         const randomCellIndex = emptyCells[randomIndex];
         const randomCell = document.querySelector(`[data-cell-index="${randomCellIndex}"]`);
@@ -108,6 +122,22 @@ function handleRestartGame() {
     gameState = ["", "", "", "", "", "", "", "", ""];
     statusDisplay.innerHTML = currentPlayerTurn();
     document.querySelectorAll('.cell').forEach(cell => cell.innerHTML = "");
+}
+
+function loadScoreData(scoreO, scoreX){
+    const scoreBoardO = document.getElementById('player-score-o');
+    scoreBoardO.value = scoreO;
+
+    const scoreBoardX = document.getElementById('player-score-x');
+    scoreBoardX.value = scoreX;
+}
+
+function saveScoreData(){
+    const saveDataO = document.getElementById('player-score-o');
+    const saveDataX = document.getElementById('player-score-x');
+    
+    window.localStorage.setItem('player-score-o', saveDataO.value);
+    window.localStorage.setItem('player-score-x', saveDataX.value);
 }
 
 document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClick));
